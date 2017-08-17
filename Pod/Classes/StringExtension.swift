@@ -42,9 +42,12 @@ extension String {
      */
     func NSRangeFrom(_ range : Range<String.Index>) -> NSRange {
         let utf16view = self.utf16
-        let from = String.UTF16View.Index(range.lowerBound, within: utf16view)
-        let to = String.UTF16View.Index(range.upperBound, within: utf16view)
-        return NSMakeRange(utf16view.startIndex.distance(to: from), from.distance(to: to))
+        guard let from = String.UTF16View.Index(range.lowerBound, within: utf16view),
+            let to = String.UTF16View.Index(range.upperBound, within: utf16view) else {
+                return NSRange(location: 0, length: 0)
+        }
+        return NSMakeRange(utf16view.distance(from: utf16view.startIndex, to: from),
+                           utf16view.distance(from: from, to: to))
     }
     
     /**
