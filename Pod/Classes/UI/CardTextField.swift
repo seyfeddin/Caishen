@@ -100,7 +100,7 @@ open class CardTextField: UITextField, NumberInputTextFieldDelegate {
     /**
      The label which is used as separator inbetween the text fields for month and year of the card expiry.
      */
-    @IBOutlet weak var slashLabel: UILabel!
+    @IBOutlet open weak var slashLabel: UILabel!
     
     /**
      The view constraint which insets the card image view from its superview's leading edge.
