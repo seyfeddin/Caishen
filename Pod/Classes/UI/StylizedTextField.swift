@@ -11,7 +11,7 @@ import UIKit
 /// A text field that provides additional UI customization.
 @IBDesignable
 open class StylizedTextField: UITextField, UITextFieldDelegate {
-    
+
     /**
      Changes to this parameter draw the border of `self` in the given width.
      */
@@ -27,7 +27,7 @@ open class StylizedTextField: UITextField, UITextFieldDelegate {
             }
         }
     }
-    
+
     /**
      If `borderWidth` has been set, changes to this parameter round the corners of `self` in the given corner radius.
      */
@@ -39,7 +39,7 @@ open class StylizedTextField: UITextField, UITextFieldDelegate {
             }
         }
     }
-    
+
     /**
      If `borderWidth` has been set, changes to this parameter change the color of the border of `self`.
      */
@@ -49,40 +49,40 @@ open class StylizedTextField: UITextField, UITextFieldDelegate {
             self.layer.borderColor = self.borderColor.cgColor
         }
     }
-    
+
     /**
      A method which will be called, when the delete key has been pressed for an empty text field.
      */
     open var deleteBackwardCallback: ((UITextField) -> Void)?
-    
+
     open override var text: String? {
         didSet {
             if (text ?? "").isEmpty {
                 deleteBackwardCallback?(self)
             } else if text == UITextField.emptyTextFieldCharacter {
-                drawPlaceholder(in: textInputView.bounds)
+                drawPlaceholder(in: placeholderRect(forBounds: bounds))
             }
             setNeedsDisplay()
         }
     }
-    
+
     /**
      The color in which text flashes, when the user is about to enter an invalid card number.
      */
     @IBInspectable open var invalidInputColor: UIColor = UIColor.red
-    
+
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+
         self.delegate = self
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         self.delegate = self
     }
-    
+
     // MARK: - Override functions
 
     open override var placeholder: String? {
@@ -90,25 +90,25 @@ open class StylizedTextField: UITextField, UITextFieldDelegate {
             setNeedsDisplay()
         }
     }
-    
+
     @discardableResult
     override open func becomeFirstResponder() -> Bool {
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self)
         return super.becomeFirstResponder()
     }
-    
+
     open override func draw(_ rect: CGRect) {
         if text == "" || text == UITextField.emptyTextFieldCharacter {
-            super.drawPlaceholder(in: rect)
+            super.drawPlaceholder(in: placeholderRect(forBounds: rect))
         } else {
             super.draw(rect)
         }
     }
-    
+
     open override func drawPlaceholder(in rect: CGRect) {
-        
+
     }
-    
+
     open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return true
     }
