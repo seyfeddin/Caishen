@@ -86,6 +86,14 @@ open class NumberInputTextField: StylizedTextField {
     private var cardNumberFormatter: CardNumberFormatter {
         return CardNumberFormatter(cardTypeRegister: cardTypeRegister, separator: cardNumberSeparator)
     }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
     
     // MARK: - UITextFieldDelegate
     
